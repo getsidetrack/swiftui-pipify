@@ -75,6 +75,10 @@ hidden by tapping on them. Users can close the overlay at any time. A pause butt
 There is no reason to believe that any of this breaks Apple's App Store guidelines, but it's definitely not an expected
 use case and so developers should proceed with caution.
 
+⚠️ I haven't found an Apple App Store guideline which explicitly prevents this sort of behaviour, but there is  
+[precedence](https://twitter.com/palmin/status/1440719449468772361) which suggests that extra evidence or functionality
+may be necessary to get it approved by Apple. Developers should proceed with caution.
+
 ## Thanks
 
 Credit goes to Akihiro Urushihara with [UIPiPView](https://github.com/uakihir0/UIPiPView) which was the inspiration for building
