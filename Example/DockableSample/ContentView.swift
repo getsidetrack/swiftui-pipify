@@ -28,25 +28,36 @@ struct ContentView: View {
 
 struct BasicExample: View {
     @State var mode: Int = 0
+    @State var counter: Int = 0
     
     var body: some View {
         Group {
             switch mode {
             case 0:
-                Text("Text Ideal Size")
+                Text("Counter: \(counter)")
                     .foregroundColor(.green)
             case 1:
-                Text("Text Fixed Size")
+                Text("Counter: \(counter)")
                     .foregroundColor(.blue)
                     .frame(width: 300, height: 100)
             default:
                 Color.red
+                    .overlay { Text("Counter: \(counter)").foregroundColor(.white) }
                     .frame(width: 100, height: 300)
             }
         }
         .task {
             await updateMode()
         }
+        .task {
+            await updateCounter()
+        }
+    }
+    
+    private func updateCounter() async {
+        counter += 1
+        try? await Task.sleep(nanoseconds: 10_000_000) // 10 milliseconds
+        await updateCounter()
     }
     
     private func updateMode() async {
@@ -57,8 +68,6 @@ struct BasicExample: View {
             mode = 0
         }
         
-        if mode < 100 { // artificial number greater than the number of modes we support to cycle infinitely
-            await updateMode()
-        }
+        await updateMode()
     }
 }

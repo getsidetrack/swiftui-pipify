@@ -11,7 +11,7 @@
 		1678264E286F37CD006AA4B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678264D286F37CD006AA4B6 /* ContentView.swift */; };
 		16782650286F37CE006AA4B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1678264F286F37CE006AA4B6 /* Assets.xcassets */; };
 		16782654286F37CE006AA4B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16782653286F37CE006AA4B6 /* Preview Assets.xcassets */; };
-		1678265E286F37FA006AA4B6 /* Dockable in Frameworks */ = {isa = PBXBuildFile; productRef = 1678265D286F37FA006AA4B6 /* Dockable */; };
+		16782661286F461F006AA4B6 /* Dockable in Frameworks */ = {isa = PBXBuildFile; productRef = 16782660286F461F006AA4B6 /* Dockable */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,8 +21,8 @@
 		1678264F286F37CE006AA4B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16782651286F37CE006AA4B6 /* DockableSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DockableSample.entitlements; sourceTree = "<group>"; };
 		16782653286F37CE006AA4B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		1678265A286F37D5006AA4B6 /* Dockable */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Dockable; path = ../..; sourceTree = "<group>"; };
 		1678265B286F37EC006AA4B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1678265F286F4617006AA4B6 /* Dockable */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Dockable; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,7 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1678265E286F37FA006AA4B6 /* Dockable in Frameworks */,
+				16782661286F461F006AA4B6 /* Dockable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,7 +40,7 @@
 		1678263F286F37CD006AA4B6 = {
 			isa = PBXGroup;
 			children = (
-				1678265A286F37D5006AA4B6 /* Dockable */,
+				1678265F286F4617006AA4B6 /* Dockable */,
 				1678264A286F37CD006AA4B6 /* DockableSample */,
 				16782649286F37CD006AA4B6 /* Products */,
 				1678265C286F37FA006AA4B6 /* Frameworks */,
@@ -100,7 +100,7 @@
 			);
 			name = DockableSample;
 			packageProductDependencies = (
-				1678265D286F37FA006AA4B6 /* Dockable */,
+				16782660286F461F006AA4B6 /* Dockable */,
 			);
 			productName = DockableSample;
 			productReference = 16782648286F37CD006AA4B6 /* DockableSample.app */;
@@ -359,7 +359,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1678265D286F37FA006AA4B6 /* Dockable */ = {
+		16782660286F461F006AA4B6 /* Dockable */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Dockable;
 		};
