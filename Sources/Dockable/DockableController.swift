@@ -14,6 +14,8 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
                                        AVPictureInPictureSampleBufferPlaybackDelegate {
     
     @Published public var enabled: Bool = false
+    @Published public var pipWidth: Int = 0
+    @Published public var pipHeight: Int = 0
     
     internal let bufferLayer = AVSampleBufferDisplayLayer()
     private var pipController: AVPictureInPictureController?
@@ -157,7 +159,8 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
     }
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, didTransitionToRenderSize newRenderSize: CMVideoDimensions) {
-        // Intentionally empty: we do not currently do anything with the render size
+        self.pipWidth = Int(newRenderSize.width)
+        self.pipHeight = Int(newRenderSize.height)
     }
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, skipByInterval skipInterval: CMTime) async {
