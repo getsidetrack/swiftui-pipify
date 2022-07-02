@@ -9,7 +9,7 @@ import SwiftUI
 import Dockable
 
 struct ContentView: View {
-    @ObservedObject var controller = DockableController()
+    @StateObject var controller = DockableController()
     
     var body: some View {
         VStack {
@@ -22,7 +22,7 @@ struct ContentView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .dockable(controller: controller, view: BasicExample())
+        .dockable(controller: controller, view: BasicExample(controller: controller))
     }
 }
 
@@ -30,11 +30,14 @@ struct BasicExample: View {
     @State var mode: Int = 0
     @State var counter: Int = 0
     
+    @ObservedObject var controller: DockableController
+    
     var body: some View {
         Group {
             switch mode {
             case 0:
-                Text("Counter: \(counter)")
+                Text("Width: \(controller.pipWidth)")
+                Text("Height: \(controller.pipHeight)")
                     .foregroundColor(.green)
             case 1:
                 Text("Counter: \(counter)")
