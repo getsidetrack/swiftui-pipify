@@ -40,7 +40,7 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
             playbackDelegate: self
         ))
         
-        // This prevents users from using the playbackcontrols. Combined with a certain Timerange this make sit so the buttons are not visible / interactable
+        // Combined with a certain time range this makes it so the skip buttons are not visible / interactable.
         pipController?.requiresLinearPlayback = true
         
         pipController?.delegate = self
@@ -150,18 +150,15 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
         // We do not support play/pause
     }
     
-    public func pictureInPictureControllerTimeRangeForPlayback(_ pictureInPictureController: AVPictureInPictureController) -> CMTimeRange {
-        return CMTimeRange(start: CMTimeMake(value: 1, timescale: 2), end: CMTimeMake(value: 10, timescale: 2))
-            
-        // By returning an infinite time range the PIP controller will treat this as a livestream
-        // as such, they will disable skipping and show a 'Live' label which more closely mimics our use case.
-        // return CMTimeRange(start: CMTimeMake(value: 1, timescale: 10), end: .positiveInfinity)
-    
-    }
-    
     public func pictureInPictureControllerIsPlaybackPaused(_ pictureInPictureController: AVPictureInPictureController) -> Bool {
         // We do not support play/pause
         return false
+    }
+    
+    public func pictureInPictureControllerTimeRangeForPlayback(_ pictureInPictureController: AVPictureInPictureController) -> CMTimeRange {
+        // By returning a positive time range in conjunction with enabling `requiresLinearPlayback`
+        // PIP will only show the play/pause button and hide the 'Live' label and skip buttons.
+        return CMTimeRange(start: .init(value: 1, timescale: 1), end: .init(value: 2, timescale: 1))
     }
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, didTransitionToRenderSize newRenderSize: CMVideoDimensions) {
