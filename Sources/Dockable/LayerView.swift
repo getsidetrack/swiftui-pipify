@@ -11,10 +11,16 @@ import SwiftUI
 import UIKit
 struct LayerView: UIViewRepresentable {
     let layer: CALayer
+    let size: CGSize?
     
     func makeUIView(context: Context) -> UIView {
         let view = UIView()
         view.layer.addSublayer(layer)
+        
+        if let size {
+            layer.frame.size = size
+        }
+        
         return view
     }
     
@@ -24,6 +30,7 @@ struct LayerView: UIViewRepresentable {
 import Cocoa
 struct LayerView: NSViewRepresentable {
     let layer: CALayer
+    let size: CGSize?
     
     func makeNSView(context: Context) -> NSView {
         let view = NSView()
