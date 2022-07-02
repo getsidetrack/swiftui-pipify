@@ -40,6 +40,9 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
             playbackDelegate: self
         ))
         
+        // This prevents users from using the playbackcontrols. Combined with a certain Timerange this make sit so the buttons are not visible / interactable
+        pipController?.requiresLinearPlayback = true
+        
         pipController?.delegate = self
     }
     
@@ -148,9 +151,12 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
     }
     
     public func pictureInPictureControllerTimeRangeForPlayback(_ pictureInPictureController: AVPictureInPictureController) -> CMTimeRange {
+        return CMTimeRange(start: CMTimeMake(value: 1, timescale: 2), end: CMTimeMake(value: 10, timescale: 2))
+            
         // By returning an infinite time range the PIP controller will treat this as a livestream
         // as such, they will disable skipping and show a 'Live' label which more closely mimics our use case.
-        return CMTimeRange(start: .negativeInfinity, end: .positiveInfinity)
+        // return CMTimeRange(start: CMTimeMake(value: 1, timescale: 10), end: .positiveInfinity)
+    
     }
     
     public func pictureInPictureControllerIsPlaybackPaused(_ pictureInPictureController: AVPictureInPictureController) -> Bool {
