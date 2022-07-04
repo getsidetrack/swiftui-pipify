@@ -31,13 +31,12 @@ struct BasicExample: View {
             }
         }
         .task {
-            controller.isPlayPauseEnabled = false
             await updateMode()
         }
         .task {
             await updateCounter()
         }
-        .onChange(of: controller.isPlaying) { isPlaying in
+        .onPipPlayPause { isPlaying in
             print("Playback \(isPlaying ? "is playing" : "is not playing")")
         }
     }

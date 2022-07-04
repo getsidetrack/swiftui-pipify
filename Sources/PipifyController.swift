@@ -13,9 +13,9 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     
     @Published public var renderSize: CGSize = .zero
     @Published public var isPlaying: Bool = true
-    public var isPlayPauseEnabled = false
     
     @Binding internal var enabled: Bool
+    internal var isPlayPauseEnabled = false
     internal let bufferLayer = AVSampleBufferDisplayLayer()
     private var pipController: AVPictureInPictureController?
     private var rendererSubscriptions = Set<AnyCancellable>()

@@ -74,6 +74,16 @@ object.
 This will give you access to certain variables such as the `renderSize` which returns the size of the picture-in-picture
 window.
 
+Alternatively, you can attach our custom closures to your view to get informed about key events.
+
+```
+yourPipifyView
+    .onPipRenderSizeChanged { size in
+        // size has changed
+    }
+}
+```
+
 > A basic example project is included in the repository. Want to share your own example? Raise a pull request with your examples below. 
 
 ## How does this work? 
