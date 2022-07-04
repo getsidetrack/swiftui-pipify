@@ -14,21 +14,37 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
                                        AVPictureInPictureSampleBufferPlaybackDelegate {
     
     @Published public var enabled: Bool = false
-    @Published public var pipWidth: Int = 0
-    @Published public var pipHeight: Int = 0
+    @Published public var renderSize: CGSize = .zero
+    @Published public var isPlaying: Bool = true
     
     internal let bufferLayer = AVSampleBufferDisplayLayer()
     private var pipController: AVPictureInPictureController?
     private var rendererSubscriptions = Set<AnyCancellable>()
     private var pipPossibleObservation: NSKeyValueObservation?
     
+    public var isPlayPauseEnabled = false
+    
+    /// Updates (if necessary) the iOS audio session.
+    ///
+    /// Even though we don't play (or yet even support playing) audio, an audio session must be active in order
+    /// for picture-in-picture to operate.
+    static func setupAudioSession() {
+        // not needed on macOS
+        #if !os(macOS)
+        let session = AVAudioSession.sharedInstance()
+        
+        // only update if necessary
+        if session.category == .soloAmbient || session.mode == .default {
+            try? session.setCategory(.playback, mode: .moviePlayback, options: .mixWithOthers)
+        }
+        #endif
+    }
+    
     override public init() {
         super.init()
+        // the audio session must be setup before the pip controller is created
+        Self.setupAudioSession()
         setupController()
-        
-        #if !os(macOS)
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
-        #endif
     }
     
     private func setupController() {
@@ -147,12 +163,13 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
     // MARK: - AVPictureInPictureSampleBufferPlaybackDelegate
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, setPlaying playing: Bool) {
-        // We do not support play/pause
+        if isPlayPauseEnabled {
+            isPlaying = playing
+        }
     }
     
     public func pictureInPictureControllerIsPlaybackPaused(_ pictureInPictureController: AVPictureInPictureController) -> Bool {
-        // We do not support play/pause
-        return false
+        return isPlayPauseEnabled && isPlaying == false
     }
     
     public func pictureInPictureControllerTimeRangeForPlayback(_ pictureInPictureController: AVPictureInPictureController) -> CMTimeRange {
@@ -162,8 +179,7 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
     }
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, didTransitionToRenderSize newRenderSize: CMVideoDimensions) {
-        self.pipWidth = Int(newRenderSize.width)
-        self.pipHeight = Int(newRenderSize.height)
+        renderSize = .init(width: Int(newRenderSize.width), height: Int(newRenderSize.height))
     }
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, skipByInterval skipInterval: CMTime) async {

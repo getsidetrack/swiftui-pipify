@@ -71,7 +71,7 @@ extension View {
         // Timing Info
         let now = CMTime(
             seconds: CACurrentMediaTime(),
-            preferredTimescale: 60
+            preferredTimescale: 120
         )
         
         let timingInfo = CMSampleTimingInfo(
