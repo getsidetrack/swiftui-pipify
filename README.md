@@ -1,4 +1,4 @@
-# Dockable
+# Pipify for SwiftUI
 
 This library introduces a new SwiftUI modifier that enables a view to be shown within a Picture in Picture overlay. This overlay
 allows information to be displayed on the screen even when the application is in the background.
@@ -23,37 +23,56 @@ https://github.com/getsidetrack/swiftui-dockable.git
 You will need to enable "Background Modes" in your project entitlements window. Specifically, you need the 
 `Audio, AirPlay and Picture in Picture` option to be enabled. Without this picture in picture mode cannot launch.
 
-### Dockable View
+### Pipify View
 
-You will need to provide a dockable view to the library - this can be any SwiftUI view but there are some important
-information to be aware of:
+The "pipify view" is the view which is actually shown within the picture-in-picture window. This can either be the
+view which you add the pipify modifier to, or a completely different view.
 
-1. This view will be rendered invisiibly when created, so closures such as `task` and `onAppear` may be called when you don't expect it.
+If you do not provide a custom pipify view, then we will use the view that the modifier was added to. By default this
+will use Apple's 'morph' transition which will animate the view into the picture-in-picture controller.
+
+When a custom pipify view is provided, we will render this offscreen which causes picture-in-picture to simply fade in.
+
+Your pipify view can be any SwiftUI view, but there are some important notes to be aware of:
+
+1. This view will be rendered invisibly when created, so closures such as `task` and `onAppear` may be called when you don't expect it.
 2. Most user interactions are not supported - so buttons, tap gestures, and more will not work.
 3. Animations and transitions may result in unexpected behaviour and has not been fully tested.
 
-### Controller and Usage
+### Usage
 
-Within your parent view which is responsible for hosting the picture-in-picture component, you will need to add a variable
-storing a `DockableController`.
-
-```swift
-@ObservedObject var controller = DockableController()
-```
-
-You will then need to add a modifier to your existing parent view. This is where you provide access to your dockable view.
+Simply add the `pipify` modifier to your SwiftUI view. There are two key signatures based on whether you want to provide
+your own custom pipify view (see above).
 
 ```swift
 yourView
-    .dockable(controller: controller, view: YourDockableView())
+    .pipify(isPresented: $isPresented) // presents `yourView` in PIP
+
+// or
+
+yourView
+    .pipify(isPresented: $isPresented) {
+        SomeOtherView() // presents `SomeOtherView` in PIP
+    }
 ```
 
-To enable/disable the dockable experience, you should mutate the binding on the controller:
+The example above assumes that you have stored a SwiftUI state or binding to the parent view. This binding is what determines
+when to present the picture in picture window. This API is similar to Apple's own solutions for example with 
+[sheet](https://www.hackingwithswift.com/quick-start/swiftui/how-to-present-a-new-view-using-sheets).
+
+```
+@State var isPresented: Bool = false
+```
+
+If you provide a custom SwiftUI view as your pipify view, then you may choose to add our pipify controller as an environment
+object.
 
 ```swift
-controller.enabled = true // enables PiP
-controller.enabled = false // disables PiP
+@EnvironmentObject var controller: PipifyController
 ```
+
+This will give you access to certain variables such as the `renderSize` which returns the size of the picture-in-picture
+window.
 
 > A basic example project is included in the repository. Want to share your own example? Raise a pull request with your examples below. 
 
@@ -65,19 +84,19 @@ Picture-in-Picture has been around for quite a while first launching with iOS 9 
 10.15 in 2019 and tvOS 14 most recently in 2020. It provides users with the ability to view video content while using
 other applications, for example watching a YouTube video while reading tweets.
 
-Dockable expands on this feature by essentially creating a video stream from a SwiftUI view. We take a screenshot of your
+Pipify expands on this feature by essentially creating a video stream from a SwiftUI view. We take a screenshot of your
 view anytime it updates and push this through a series of functions in Apple's AVKit. From these screenshots which we turn
 into a video stream, we can launch picture-in-picture mode.
 
-From a user's perspective, the view is docked in a layer above the application. Video controls may be visible and can be
-hidden by tapping on them. Users can close the overlay at any time. A pause button can be shown, but does nothing.
+From a user's perspective, the view is moved in a window above the application. Video controls may be visible and can be
+hidden by tapping on them. Users can temporarily hide or close the picture-in-picture window at any time.
 
-There is no reason to believe that any of this breaks Apple's App Store guidelines, but it's definitely not an expected
-use case and so developers should proceed with caution.
+⚠️ There is no reason to believe that this functionality breaks Apple's App Store guidelines. There are examples of apps
+on the App Store which use this functionality ([Example](https://apps.apple.com/us/app/minispeech-live-transcribe/id1576069409)), 
+but there has also been cases of apps being rejected for misuse of the API ([Example](https://twitter.com/palmin/status/1440719449468772361)).
 
-⚠️ I haven't found an Apple App Store guideline which explicitly prevents this sort of behaviour, but there is  
-[precedence](https://twitter.com/palmin/status/1440719449468772361) which suggests that extra evidence or functionality
-may be necessary to get it approved by Apple. Developers should proceed with caution.
+We recommend that developers proceed with caution and consider what the best experience is for their users. You may want to explore
+ways of implementing sound into your application.
 
 ## Thanks
 

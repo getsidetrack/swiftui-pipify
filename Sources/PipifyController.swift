@@ -12,10 +12,10 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     
     @Published public var renderSize: CGSize = .zero
     @Published public var isPlaying: Bool = true
+    public var isPlayPauseEnabled = false
     
     @Binding internal var enabled: Bool
     internal let bufferLayer = AVSampleBufferDisplayLayer()
-    internal var isPlayPauseEnabled = false
     private var pipController: AVPictureInPictureController?
     private var rendererSubscriptions = Set<AnyCancellable>()
     private var pipPossibleObservation: NSKeyValueObservation?
@@ -141,7 +141,7 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     }
     
     public func pictureInPictureControllerShouldProhibitBackgroundAudioPlayback(_ pictureInPictureController: AVPictureInPictureController) -> Bool {
-        // We do not support audio through the dockable controller, as such we will allow other background audio to
+        // We do not support audio through the pipify controller, as such we will allow other background audio to
         // continue playing
         return false
     }

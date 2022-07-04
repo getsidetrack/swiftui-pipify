@@ -50,7 +50,7 @@ extension View {
         }
         
         guard let unwrappedPixelBuffer = buffer else {
-            throw NSError(domain: "com.getsidetrack.dockable", code: 0)
+            throw NSError(domain: "com.getsidetrack.pipify", code: 0)
         }
         
         // Format Description
@@ -62,7 +62,7 @@ extension View {
         )
         
         guard let unwrappedFormatDescription = formatDescription, status == kCVReturnSuccess else {
-            throw NSError(domain: "com.getsidetrack.dockable", code: 1)
+            throw NSError(domain: "com.getsidetrack.pipify", code: 1)
         }
         
         // Timing Info
