@@ -15,7 +15,7 @@ to the user.
 We currently support installation through [Swift Package Manager](https://www.swift.org/package-manager/).
 
 ```
-https://github.com/getsidetrack/swiftui-dockable.git
+https://github.com/getsidetrack/swiftui-pipify.git
 ```
 
 ### Project Configuration
