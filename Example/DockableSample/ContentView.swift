@@ -27,14 +27,16 @@ struct ContentView: View {
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
-                .dockable(controller: controllerTwo)
+                .pipify(controller: controllerTwo)
                 .padding(.top)
                 .onTapGesture {
                     controllerTwo.enabled.toggle()
                 }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .dockable(controller: controller, view: BasicExample(controller: controller))
+        .pipify(controller: controller) {
+            BasicExample(controller: controller)
+        }
     }
 }
 
