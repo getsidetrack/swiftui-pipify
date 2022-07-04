@@ -1,8 +1,5 @@
 //
-//  LayerView.swift
-//  Dockable
-//
-//  Created by James Sherlock on 01/07/2022.
+//  Copyright 2022 • Sidetrack Tech Limited
 //
 
 import SwiftUI
