@@ -26,6 +26,7 @@ extension View {
             )
             
             guard let unwrappedBuffer = buffer, status == kCVReturnSuccess else {
+                logger.error("buffer not created, status: \(status)")
                 return
             }
             
@@ -43,6 +44,7 @@ extension View {
             )
             
             guard let unwrappedContext = context else {
+                logger.error("context not created")
                 return
             }
             
@@ -50,6 +52,7 @@ extension View {
         }
         
         guard let unwrappedPixelBuffer = buffer else {
+            logger.error("buffer not created")
             throw NSError(domain: "com.getsidetrack.pipify", code: 0)
         }
         
@@ -62,6 +65,7 @@ extension View {
         )
         
         guard let unwrappedFormatDescription = formatDescription, status == kCVReturnSuccess else {
+            logger.error("format description not created, status: \(status)")
             throw NSError(domain: "com.getsidetrack.pipify", code: 1)
         }
         

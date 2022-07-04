@@ -6,6 +6,7 @@ import Foundation
 import SwiftUI
 import AVKit
 import Combine
+import os.log
 
 public final class PipifyController: NSObject, ObservableObject, AVPictureInPictureControllerDelegate,
                                        AVPictureInPictureSampleBufferPlaybackDelegate {
@@ -27,6 +28,7 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     static func setupAudioSession() {
         // not needed on macOS
         #if !os(macOS)
+        logger.info("configuring audio session")
         let session = AVAudioSession.sharedInstance()
         
         // only update if necessary
@@ -45,6 +47,8 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     }
     
     private func setupController() {
+        logger.info("creating pip controller")
+        
         bufferLayer.frame.size = .init(width: 300, height: 100)
         bufferLayer.videoGravity = .resizeAspect
         
@@ -84,7 +88,7 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
                 let buffer = try await view.makeBuffer(renderer: renderer)
                 render(buffer: buffer)
             } catch {
-                print("failed to create buffer: \(error.localizedDescription)")
+                logger.error("failed to create buffer: \(error.localizedDescription)")
             }
         }
     }
@@ -100,21 +104,32 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     // MARK: - Lifecycle
     
     internal func start() {
-        guard let pipController, pipController.isPictureInPictureActive == false else {
+        guard let pipController else {
+            logger.warning("could not start: no controller")
+            return
+        }
+        
+        guard pipController.isPictureInPictureActive == false else {
+            logger.warning("could not start: already active")
             return
         }
         
         #if !os(macOS)
+        logger.info("activating audio session")
         try? AVAudioSession.sharedInstance().setActive(true)
         #endif
         
         if pipController.isPictureInPicturePossible {
+            logger.info("starting picture in picture")
             pipController.startPictureInPicture()
         } else {
+            logger.info("waiting for pip to be possible")
+            
             // not currently possible, so wait until it is.
             let keyPath = \AVPictureInPictureController.isPictureInPicturePossible
             pipPossibleObservation = pipController.observe(keyPath, options: [ .new ]) { [weak self] controller, change in
                 if change.newValue ?? false {
+                    logger.info("starting picture in picture")
                     controller.startPictureInPicture()
                     self?.pipPossibleObservation = nil
                 }
@@ -124,19 +139,27 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     
     internal func stop() {
         guard let pipController else {
+            logger.warning("could not stop: no controller")
             return
         }
         
+        logger.info("stopping picture in picture")
         pipController.stopPictureInPicture()
         
         #if !os(macOS)
+        logger.info("deactivating audio session")
         try? AVAudioSession.sharedInstance().setActive(false)
         #endif
     }
     
     // MARK: - AVPictureInPictureControllerDelegate
 
+    public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        logger.info("didStart")
+    }
+    
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        logger.info("didStop")
         enabled = false
     }
     
@@ -147,6 +170,7 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     }
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
+        logger.error("failed to start: \(error.localizedDescription)")
         enabled = false
     }
     
@@ -154,6 +178,7 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
         _ pictureInPictureController: AVPictureInPictureController,
         restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void
     ) {
+        logger.info("restore UI")
         enabled = false
         completionHandler(true)
     }
@@ -162,6 +187,7 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, setPlaying playing: Bool) {
         if isPlayPauseEnabled {
+            logger.info("setPlaying: \(playing)")
             isPlaying = playing
         }
     }
@@ -177,6 +203,7 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     }
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, didTransitionToRenderSize newRenderSize: CMVideoDimensions) {
+        logger.info("window resize: \(newRenderSize.width)x\(newRenderSize.height)")
         renderSize = .init(width: Int(newRenderSize.width), height: Int(newRenderSize.height))
     }
     
@@ -184,3 +211,5 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
         // Intentionally empty: we do not support skipping
     }
 }
+
+let logger = Logger(subsystem: "com.getsidetrack.pipify", category: "Pipify")

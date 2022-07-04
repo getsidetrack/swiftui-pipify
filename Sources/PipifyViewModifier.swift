@@ -36,6 +36,7 @@ internal struct PipifyModifier<PipView: View>: ViewModifier {
                 }
             }
             .onChange(of: isPresented) { newValue in
+                logger.trace("isPresented changed to \(newValue)")
                 if newValue {
                     controller.start()
                 } else {
@@ -43,9 +44,11 @@ internal struct PipifyModifier<PipView: View>: ViewModifier {
                 }
             }
             .onChange(of: controller.isPlaying) { newValue in
+                logger.trace("isPlaying changed to \(newValue)")
                 onPlayPause?(newValue)
             }
             .task {
+                logger.trace("setting view content")
                 controller.isPlayPauseEnabled = onPlayPause != nil
                 controller.setView(pipContent())
             }
