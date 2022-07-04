@@ -16,12 +16,12 @@ public extension View {
     ///   - content: A closure which returns the view you wish to present in the Picture in Picture controller.
     @warn_unqualified_access
     func pipify<PipView: View>(
-        controller: DockableController,
+        isPresented: Binding<Bool>,
         onPlayPause: ((Bool) -> Void)? = nil,
         content: @escaping () -> PipView
     ) -> some View {
         modifier(PipifyModifier(
-            controller: controller,
+            isPresented: isPresented,
             pipContent: content,
             onPlayPause: onPlayPause,
             offscreenRendering: true
@@ -37,11 +37,11 @@ public extension View {
     ///   button will always be shown to the user.
     @warn_unqualified_access
     func pipify(
-        controller: DockableController,
+        isPresented: Binding<Bool>,
         onPlayPause: ((Bool) -> Void)? = nil
     ) -> some View {
         modifier(PipifyModifier(
-            controller: controller,
+            isPresented: isPresented,
             pipContent: { self },
             onPlayPause: onPlayPause,
             offscreenRendering: false
@@ -54,11 +54,11 @@ public extension View {
 ///
 /// Reference: https://useyourloaf.com/blog/adding-views-and-modifiers-to-the-xcode-library/
 struct PipifyLibrary: LibraryContentProvider {
-    @StateObject var controller = DockableController()
+    @State var isPresented: Bool = false
     
     @LibraryContentBuilder
     func modifiers(base: any View) -> [LibraryItem] {
-        LibraryItem(base.pipify(controller: controller), title: "Pipify Embedded View")
-        LibraryItem(base.pipify(controller: controller) { Text("Hello, world!") }, title: "Pipify External View")
+        LibraryItem(base.pipify(isPresented: $isPresented), title: "Pipify Embedded View")
+        LibraryItem(base.pipify(isPresented: $isPresented) { Text("Hello, world!") }, title: "Pipify External View")
     }
 }

@@ -5,10 +5,24 @@
 import SwiftUI
 
 internal struct PipifyModifier<PipView: View>: ViewModifier {
-    @ObservedObject var controller: DockableController
+    @Binding var isPresented: Bool
+    @ObservedObject var controller: PipifyController
     let pipContent: () -> PipView
     let onPlayPause: ((Bool) -> Void)?
     let offscreenRendering: Bool
+    
+    init(
+        isPresented: Binding<Bool>,
+        pipContent: @escaping () -> PipView,
+        onPlayPause: ((Bool) -> Void)?,
+        offscreenRendering: Bool
+    ) {
+        self._isPresented = isPresented
+        self.controller = PipifyController(isPresented: isPresented)
+        self.pipContent = pipContent
+        self.onPlayPause = onPlayPause
+        self.offscreenRendering = offscreenRendering
+    }
     
     func body(content: Content) -> some View {
         content
@@ -21,7 +35,7 @@ internal struct PipifyModifier<PipView: View>: ViewModifier {
                     generateLayerView(size: nil)
                 }
             }
-            .onChange(of: controller.enabled) { newValue in
+            .onChange(of: isPresented) { newValue in
                 if newValue {
                     controller.start()
                 } else {

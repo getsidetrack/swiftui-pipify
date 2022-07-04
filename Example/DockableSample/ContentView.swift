@@ -9,8 +9,8 @@ import SwiftUI
 import Dockable
 
 struct ContentView: View {
-    @StateObject var controller = DockableController()
-    @StateObject var controllerTwo = DockableController()
+    @State var isPresentedOne = false
+    @State var isPresentedTwo = false
     
     var body: some View {
         VStack {
@@ -18,7 +18,7 @@ struct ContentView: View {
                 .font(.title)
             
             Button("Launch Basic Example") {
-                controller.enabled.toggle()
+                isPresentedTwo.toggle()
             }
             
             Text("Dockable View (Tap on me!)")
@@ -27,16 +27,14 @@ struct ContentView: View {
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
-                .pipify(controller: controllerTwo)
+                .pipify(isPresented: $isPresentedOne)
                 .padding(.top)
                 .onTapGesture {
-                    controllerTwo.enabled.toggle()
+                    isPresentedOne.toggle()
                 }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .pipify(controller: controller) {
-            BasicExample(controller: controller)
-        }
+        .pipify(isPresented: $isPresentedTwo, content: BasicExample.init)
     }
 }
 
@@ -44,7 +42,7 @@ struct BasicExample: View {
     @State var mode: Int = 0
     @State var counter: Int = 0
     
-    @ObservedObject var controller: DockableController
+    @EnvironmentObject var controller: PipifyController
     
     var body: some View {
         Group {

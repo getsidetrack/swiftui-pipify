@@ -7,19 +7,18 @@ import SwiftUI
 import AVKit
 import Combine
 
-public final class DockableController: NSObject, ObservableObject, AVPictureInPictureControllerDelegate,
+public final class PipifyController: NSObject, ObservableObject, AVPictureInPictureControllerDelegate,
                                        AVPictureInPictureSampleBufferPlaybackDelegate {
     
-    @Published public var enabled: Bool = false
     @Published public var renderSize: CGSize = .zero
     @Published public var isPlaying: Bool = true
     
+    @Binding internal var enabled: Bool
     internal let bufferLayer = AVSampleBufferDisplayLayer()
+    internal var isPlayPauseEnabled = false
     private var pipController: AVPictureInPictureController?
     private var rendererSubscriptions = Set<AnyCancellable>()
     private var pipPossibleObservation: NSKeyValueObservation?
-    
-    public var isPlayPauseEnabled = false
     
     /// Updates (if necessary) the iOS audio session.
     ///
@@ -37,7 +36,8 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
         #endif
     }
     
-    override public init() {
+    init(isPresented: Binding<Bool>) {
+        _enabled = isPresented
         super.init()
         // the audio session must be setup before the pip controller is created
         Self.setupAudioSession()
@@ -60,19 +60,20 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
     }
     
     @MainActor func setView(_ view: some View, maximumUpdatesPerSecond: Double = 30) {
-        let renderer = ImageRenderer(content: view)
+        let modifiedView = view.environmentObject(self)
+        let renderer = ImageRenderer(content: modifiedView)
         
         renderer
             .objectWillChange
             // limit the number of times we redraw per second (performance)
             .throttle(for: .init(1.0 / maximumUpdatesPerSecond), scheduler: RunLoop.main, latest: true)
             .sink { [weak self] _ in
-                self?.render(view: view, using: renderer)
+                self?.render(view: modifiedView, using: renderer)
             }
             .store(in: &rendererSubscriptions)
         
         // first draw
-        render(view: view, using: renderer)
+        render(view: modifiedView, using: renderer)
     }
     
     // MARK: - Rendering
@@ -98,7 +99,7 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
     
     // MARK: - Lifecycle
     
-    func start() {
+    internal func start() {
         guard let pipController, pipController.isPictureInPictureActive == false else {
             return
         }
