@@ -24,13 +24,27 @@ public final class DockableController: NSObject, ObservableObject, AVPictureInPi
     
     public var isPlayPauseEnabled = false
     
+    /// Updates (if necessary) the iOS audio session.
+    ///
+    /// Even though we don't play (or yet even support playing) audio, an audio session must be active in order
+    /// for picture-in-picture to operate.
+    static func setupAudioSession() {
+        // not needed on macOS
+        #if !os(macOS)
+        let session = AVAudioSession.sharedInstance()
+        
+        // only update if necessary
+        if session.category == .soloAmbient || session.mode == .default {
+            try? session.setCategory(.playback, mode: .moviePlayback, options: .mixWithOthers)
+        }
+        #endif
+    }
+    
     override public init() {
         super.init()
+        // the audio session must be setup before the pip controller is created
+        Self.setupAudioSession()
         setupController()
-        
-        #if !os(macOS)
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
-        #endif
     }
     
     private func setupController() {

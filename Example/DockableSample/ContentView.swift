@@ -10,7 +10,7 @@ import Dockable
 
 struct ContentView: View {
     @StateObject var controller = DockableController()
-    // @StateObject var controllerTwo = DockableController()
+    @StateObject var controllerTwo = DockableController()
     
     var body: some View {
         VStack {
@@ -21,7 +21,6 @@ struct ContentView: View {
                 controller.enabled.toggle()
             }
             
-            /*
             Text("Dockable View (Tap on me!)")
                 .foregroundColor(.red)
                 .fontWeight(.medium)
@@ -33,7 +32,6 @@ struct ContentView: View {
                 .onTapGesture {
                     controllerTwo.enabled.toggle()
                 }
-             */
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .dockable(controller: controller, view: BasicExample(controller: controller))
