@@ -11,19 +11,15 @@ public extension View {
     ///
     /// - Parameters:
     ///   - isPresented: A binding to a boolean which determines when the Picture in Picture controller should be presented.
-    ///   - onPlayPause: A closure which, if provided, is called whenever the user toggles the play/pause button. If no closure is provided (nil), then the pause
-    ///   button will always be shown to the user.
     ///   - content: A closure which returns the view you wish to present in the Picture in Picture controller.
     @warn_unqualified_access
     func pipify<PipView: View>(
         isPresented: Binding<Bool>,
-        onPlayPause: ((Bool) -> Void)? = nil,
         content: @escaping () -> PipView
     ) -> some View {
         modifier(PipifyModifier(
             isPresented: isPresented,
             pipContent: content,
-            onPlayPause: onPlayPause,
             offscreenRendering: true
         ))
     }
@@ -33,17 +29,13 @@ public extension View {
     ///
     /// - Parameters:
     ///   - isPresented: A binding to a boolean which determines when the Picture in Picture controller should be presented.
-    ///   - onPlayPause: A closure which, if provided, is called whenever the user toggles the play/pause button. If no closure is provided (nil), then the pause
-    ///   button will always be shown to the user.
     @warn_unqualified_access
     func pipify(
-        isPresented: Binding<Bool>,
-        onPlayPause: ((Bool) -> Void)? = nil
+        isPresented: Binding<Bool>
     ) -> some View {
         modifier(PipifyModifier(
             isPresented: isPresented,
             pipContent: { self },
-            onPlayPause: onPlayPause,
             offscreenRendering: false
         ))
     }

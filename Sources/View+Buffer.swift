@@ -70,15 +70,12 @@ extension View {
         }
         
         // Timing Info
-        let now = CMTime(
-            seconds: CACurrentMediaTime(),
-            preferredTimescale: 120
-        )
+        let second = CMTime(seconds: 1, preferredTimescale: 60)
         
         let timingInfo = CMSampleTimingInfo(
-            duration: .init(seconds: 1, preferredTimescale: 60),
-            presentationTimeStamp: now,
-            decodeTimeStamp: now
+            duration: second,
+            presentationTimeStamp: second,
+            decodeTimeStamp: second
         )
 
         return try CMSampleBuffer(

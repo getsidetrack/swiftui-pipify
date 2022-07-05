@@ -8,19 +8,16 @@ internal struct PipifyModifier<PipView: View>: ViewModifier {
     @Binding var isPresented: Bool
     @ObservedObject var controller: PipifyController
     let pipContent: () -> PipView
-    let onPlayPause: ((Bool) -> Void)?
     let offscreenRendering: Bool
     
     init(
         isPresented: Binding<Bool>,
         pipContent: @escaping () -> PipView,
-        onPlayPause: ((Bool) -> Void)?,
         offscreenRendering: Bool
     ) {
         self._isPresented = isPresented
         self.controller = PipifyController(isPresented: isPresented)
         self.pipContent = pipContent
-        self.onPlayPause = onPlayPause
         self.offscreenRendering = offscreenRendering
     }
     
@@ -43,13 +40,8 @@ internal struct PipifyModifier<PipView: View>: ViewModifier {
                     controller.stop()
                 }
             }
-            .onChange(of: controller.isPlaying) { newValue in
-                logger.trace("isPlaying changed to \(newValue)")
-                onPlayPause?(newValue)
-            }
             .task {
                 logger.trace("setting view content")
-                controller.isPlayPauseEnabled = onPlayPause != nil
                 controller.setView(pipContent())
             }
     }

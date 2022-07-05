@@ -16,6 +16,22 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     
     @Binding internal var enabled: Bool
     internal var isPlayPauseEnabled = false
+    
+    internal var onSkip: ((Double) -> Void)? = nil {
+        didSet {
+            // the pip controller is setup by the time the skip modifier changes this value
+            // as such we update the pip controller after the fact
+            pipController?.requiresLinearPlayback = onSkip == nil
+            pipController?.invalidatePlaybackState()
+        }
+    }
+    
+    internal var progress: Double = 1 {
+        didSet {
+            pipController?.invalidatePlaybackState()
+        }
+    }
+    
     internal let bufferLayer = AVSampleBufferDisplayLayer()
     private var pipController: AVPictureInPictureController?
     private var rendererSubscriptions = Set<AnyCancellable>()
@@ -58,7 +74,8 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
         ))
         
         // Combined with a certain time range this makes it so the skip buttons are not visible / interactable.
-        pipController?.requiresLinearPlayback = true
+        // if an `onSkip` closure is provied then we don't do this
+        pipController?.requiresLinearPlayback = onSkip == nil
         
         pipController?.delegate = self
     }
@@ -118,6 +135,9 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
         logger.info("activating audio session")
         try? AVAudioSession.sharedInstance().setActive(true)
         #endif
+        
+        // force the timestamp to update
+        pipController.invalidatePlaybackState()
         
         if pipController.isPictureInPicturePossible {
             logger.info("starting picture in picture")
@@ -187,8 +207,11 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, setPlaying playing: Bool) {
         if isPlayPauseEnabled {
-            logger.info("setPlaying: \(playing)")
-            isPlaying = playing
+            DispatchQueue.main.async {
+                logger.info("setPlaying: \(playing)")
+                self.isPlaying = playing
+                pictureInPictureController.invalidatePlaybackState()
+            }
         }
     }
     
@@ -197,18 +220,47 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     }
     
     public func pictureInPictureControllerTimeRangeForPlayback(_ pictureInPictureController: AVPictureInPictureController) -> CMTimeRange {
-        // By returning a positive time range in conjunction with enabling `requiresLinearPlayback`
-        // PIP will only show the play/pause button and hide the 'Live' label and skip buttons.
-        return CMTimeRange(start: .init(value: 1, timescale: 1), end: .init(value: 2, timescale: 1))
+        if onSkip == nil && progress == 1 {
+            // By returning a positive time range in conjunction with enabling `requiresLinearPlayback`
+            // PIP will only show the play/pause button and hide the 'Live' label and skip buttons.
+            return CMTimeRange(start: .init(value: 1, timescale: 1), end: .init(value: 2, timescale: 1))
+        } else {
+            let currentTime = CMTime(
+                seconds: CACurrentMediaTime(),
+                preferredTimescale: 120
+            )
+            
+            // We use one week as the value needs to be large enough that a user would not feasibly see time pass.
+            let oneWeek: Double = 86400 * 7
+            
+            let multipliers: (Double, Double)
+            switch progress {
+            case 0: // 0%
+                multipliers = (0, 1)
+            default:
+                multipliers = (1, 1 / progress - 1)
+            }
+            
+            let startScaler = CMTime(seconds: oneWeek * multipliers.0, preferredTimescale: 120)
+            
+            // the 20 here (can be pretty much any number) ensures that the skip forward button works
+            // if we don't add this little extra then Apple believes we're at the end of the clip
+            // and as such disables the skip forward button. we don't want that.
+            // because our oneWeek number is so large, the 20 here isn't noticeable to users.
+            let endScaler = CMTime(seconds: oneWeek * multipliers.1 + 20, preferredTimescale: 120)
+            
+            return CMTimeRange(start: currentTime - startScaler, end: currentTime + endScaler)
+        }
     }
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, didTransitionToRenderSize newRenderSize: CMVideoDimensions) {
-        logger.info("window resize: \(newRenderSize.width)x\(newRenderSize.height)")
+        logger.trace("window resize: \(newRenderSize.width)x\(newRenderSize.height)")
         renderSize = .init(width: Int(newRenderSize.width), height: Int(newRenderSize.height))
     }
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, skipByInterval skipInterval: CMTime) async {
-        // Intentionally empty: we do not support skipping
+        logger.info("skip by: \(skipInterval.seconds) seconds")
+        onSkip?(skipInterval.seconds)
     }
 }
 

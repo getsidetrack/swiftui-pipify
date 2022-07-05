@@ -8,6 +8,7 @@ import Pipify
 struct ContentView: View {
     @State var isPresentedOne = false
     @State var isPresentedTwo = false
+    @State var isPresentedThree = false
     
     var body: some View {
         VStack {
@@ -29,8 +30,17 @@ struct ContentView: View {
                 .onTapGesture {
                     isPresentedOne.toggle()
                 }
+            
+            Button("Basic Example") { isPresentedThree.toggle() }
+                .pipify(isPresented: $isPresentedThree) {
+                    Text("Example Three")
+                        .foregroundColor(.red)
+                        .padding()
+                        .onPipSkip { _ in }
+                        .onPipPlayPause { _ in }
+                }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .pipify(isPresented: $isPresentedTwo, content: BasicExample.init)
+        // .pipify(isPresented: $isPresentedTwo, content: BasicExample.init)
     }
 }
