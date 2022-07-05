@@ -1,48 +1,15 @@
 //
-//  ContentView.swift
-//  DockableSample
-//
-//  Created by James Sherlock on 01/07/2022.
+//  Copyright 2022 • Sidetrack Tech Limited
 //
 
+import Pipify
 import SwiftUI
-import Dockable
-
-struct ContentView: View {
-    @StateObject var controller = DockableController()
-    @StateObject var controllerTwo = DockableController()
-    
-    var body: some View {
-        VStack {
-            Text("SwiftUI Dockable")
-                .font(.title)
-            
-            Button("Launch Basic Example") {
-                controller.enabled.toggle()
-            }
-            
-            Text("Dockable View (Tap on me!)")
-                .foregroundColor(.red)
-                .fontWeight(.medium)
-                .padding()
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(8)
-                .dockable(controller: controllerTwo)
-                .padding(.top)
-                .onTapGesture {
-                    controllerTwo.enabled.toggle()
-                }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .dockable(controller: controller, view: BasicExample(controller: controller))
-    }
-}
 
 struct BasicExample: View {
     @State var mode: Int = 0
     @State var counter: Int = 0
     
-    @ObservedObject var controller: DockableController
+    @EnvironmentObject var controller: PipifyController
     
     var body: some View {
         Group {
@@ -64,13 +31,12 @@ struct BasicExample: View {
             }
         }
         .task {
-            controller.isPlayPauseEnabled = false
             await updateMode()
         }
         .task {
             await updateCounter()
         }
-        .onChange(of: controller.isPlaying) { isPlaying in
+        .onPipPlayPause { isPlaying in
             print("Playback \(isPlaying ? "is playing" : "is not playing")")
         }
     }

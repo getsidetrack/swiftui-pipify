@@ -1,8 +1,5 @@
 //
-//  File.swift
-//  Dockable
-//
-//  Created by James Sherlock on 01/07/2022.
+//  Copyright 2022 • Sidetrack Tech Limited
 //
 
 import SwiftUI
@@ -29,6 +26,7 @@ extension View {
             )
             
             guard let unwrappedBuffer = buffer, status == kCVReturnSuccess else {
+                logger.error("buffer not created, status: \(status)")
                 return
             }
             
@@ -46,6 +44,7 @@ extension View {
             )
             
             guard let unwrappedContext = context else {
+                logger.error("context not created")
                 return
             }
             
@@ -53,7 +52,8 @@ extension View {
         }
         
         guard let unwrappedPixelBuffer = buffer else {
-            throw NSError(domain: "com.getsidetrack.dockable", code: 0)
+            logger.error("buffer not created")
+            throw NSError(domain: "com.getsidetrack.pipify", code: 0)
         }
         
         // Format Description
@@ -65,19 +65,17 @@ extension View {
         )
         
         guard let unwrappedFormatDescription = formatDescription, status == kCVReturnSuccess else {
-            throw NSError(domain: "com.getsidetrack.dockable", code: 1)
+            logger.error("format description not created, status: \(status)")
+            throw NSError(domain: "com.getsidetrack.pipify", code: 1)
         }
         
         // Timing Info
-        let now = CMTime(
-            seconds: CACurrentMediaTime(),
-            preferredTimescale: 120
-        )
+        let second = CMTime(seconds: 1, preferredTimescale: 60)
         
         let timingInfo = CMSampleTimingInfo(
-            duration: .init(seconds: 1, preferredTimescale: 60),
-            presentationTimeStamp: now,
-            decodeTimeStamp: now
+            duration: second,
+            presentationTimeStamp: second,
+            decodeTimeStamp: second
         )
 
         return try CMSampleBuffer(

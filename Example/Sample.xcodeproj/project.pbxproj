@@ -7,22 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1678264C286F37CD006AA4B6 /* DockableSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678264B286F37CD006AA4B6 /* DockableSampleApp.swift */; };
+		162BEA2C2873B99500345084 /* PipifyLoadingBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162BEA2B2873B99500345084 /* PipifyLoadingBarView.swift */; };
+		1678264C286F37CD006AA4B6 /* SampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678264B286F37CD006AA4B6 /* SampleApp.swift */; };
 		1678264E286F37CD006AA4B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678264D286F37CD006AA4B6 /* ContentView.swift */; };
 		16782650286F37CE006AA4B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1678264F286F37CE006AA4B6 /* Assets.xcassets */; };
 		16782654286F37CE006AA4B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16782653286F37CE006AA4B6 /* Preview Assets.xcassets */; };
-		16782661286F461F006AA4B6 /* Dockable in Frameworks */ = {isa = PBXBuildFile; productRef = 16782660286F461F006AA4B6 /* Dockable */; };
+		1678267E287351A9006AA4B6 /* CustomPipifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678267D287351A9006AA4B6 /* CustomPipifyView.swift */; };
+		16782680287351CE006AA4B6 /* Pipify in Frameworks */ = {isa = PBXBuildFile; productRef = 1678267F287351CE006AA4B6 /* Pipify */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		16782648286F37CD006AA4B6 /* DockableSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DockableSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1678264B286F37CD006AA4B6 /* DockableSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockableSampleApp.swift; sourceTree = "<group>"; };
+		162BEA2B2873B99500345084 /* PipifyLoadingBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipifyLoadingBarView.swift; sourceTree = "<group>"; };
+		16782648286F37CD006AA4B6 /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1678264B286F37CD006AA4B6 /* SampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleApp.swift; sourceTree = "<group>"; };
 		1678264D286F37CD006AA4B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1678264F286F37CE006AA4B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		16782651286F37CE006AA4B6 /* DockableSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DockableSample.entitlements; sourceTree = "<group>"; };
+		16782651286F37CE006AA4B6 /* Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sample.entitlements; sourceTree = "<group>"; };
 		16782653286F37CE006AA4B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		1678265B286F37EC006AA4B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1678265B286F37EC006AA4B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1678265F286F4617006AA4B6 /* Dockable */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Dockable; path = ..; sourceTree = "<group>"; };
+		1678267D287351A9006AA4B6 /* CustomPipifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPipifyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,42 +34,51 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16782661286F461F006AA4B6 /* Dockable in Frameworks */,
+				16782680287351CE006AA4B6 /* Pipify in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		162BEA2A287352A500345084 /* Boilerplate */ = {
+			isa = PBXGroup;
+			children = (
+				1678265B286F37EC006AA4B6 /* Info.plist */,
+				1678264B286F37CD006AA4B6 /* SampleApp.swift */,
+				1678264F286F37CE006AA4B6 /* Assets.xcassets */,
+				16782651286F37CE006AA4B6 /* Sample.entitlements */,
+				16782652286F37CE006AA4B6 /* Preview Content */,
+			);
+			path = Boilerplate;
+			sourceTree = "<group>";
+		};
 		1678263F286F37CD006AA4B6 = {
 			isa = PBXGroup;
 			children = (
 				1678265F286F4617006AA4B6 /* Dockable */,
-				1678264A286F37CD006AA4B6 /* DockableSample */,
+				162BEA2A287352A500345084 /* Boilerplate */,
+				1678264A286F37CD006AA4B6 /* Code */,
 				16782649286F37CD006AA4B6 /* Products */,
-				1678265C286F37FA006AA4B6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		16782649286F37CD006AA4B6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				16782648286F37CD006AA4B6 /* DockableSample.app */,
+				16782648286F37CD006AA4B6 /* Sample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1678264A286F37CD006AA4B6 /* DockableSample */ = {
+		1678264A286F37CD006AA4B6 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				1678265B286F37EC006AA4B6 /* Info.plist */,
-				1678264B286F37CD006AA4B6 /* DockableSampleApp.swift */,
 				1678264D286F37CD006AA4B6 /* ContentView.swift */,
-				1678264F286F37CE006AA4B6 /* Assets.xcassets */,
-				16782651286F37CE006AA4B6 /* DockableSample.entitlements */,
-				16782652286F37CE006AA4B6 /* Preview Content */,
+				1678267D287351A9006AA4B6 /* CustomPipifyView.swift */,
+				162BEA2B2873B99500345084 /* PipifyLoadingBarView.swift */,
 			);
-			path = DockableSample;
+			path = Code;
 			sourceTree = "<group>";
 		};
 		16782652286F37CE006AA4B6 /* Preview Content */ = {
@@ -76,19 +89,12 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		1678265C286F37FA006AA4B6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		16782647286F37CD006AA4B6 /* DockableSample */ = {
+		16782647286F37CD006AA4B6 /* Sample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16782657286F37CE006AA4B6 /* Build configuration list for PBXNativeTarget "DockableSample" */;
+			buildConfigurationList = 16782657286F37CE006AA4B6 /* Build configuration list for PBXNativeTarget "Sample" */;
 			buildPhases = (
 				16782644286F37CD006AA4B6 /* Sources */,
 				16782645286F37CD006AA4B6 /* Frameworks */,
@@ -98,12 +104,12 @@
 			);
 			dependencies = (
 			);
-			name = DockableSample;
+			name = Sample;
 			packageProductDependencies = (
-				16782660286F461F006AA4B6 /* Dockable */,
+				1678267F287351CE006AA4B6 /* Pipify */,
 			);
 			productName = DockableSample;
-			productReference = 16782648286F37CD006AA4B6 /* DockableSample.app */;
+			productReference = 16782648286F37CD006AA4B6 /* Sample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -121,7 +127,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 16782643286F37CD006AA4B6 /* Build configuration list for PBXProject "DockableSample" */;
+			buildConfigurationList = 16782643286F37CD006AA4B6 /* Build configuration list for PBXProject "Sample" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -134,7 +140,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				16782647286F37CD006AA4B6 /* DockableSample */,
+				16782647286F37CD006AA4B6 /* Sample */,
 			);
 		};
 /* End PBXProject section */
@@ -156,8 +162,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				162BEA2C2873B99500345084 /* PipifyLoadingBarView.swift in Sources */,
 				1678264E286F37CD006AA4B6 /* ContentView.swift in Sources */,
-				1678264C286F37CD006AA4B6 /* DockableSampleApp.swift in Sources */,
+				1678267E287351A9006AA4B6 /* CustomPipifyView.swift in Sources */,
+				1678264C286F37CD006AA4B6 /* SampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,15 +286,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = DockableSample/DockableSample.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Boilerplate/Sample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DockableSample/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_ASSET_PATHS = "\"Boilerplate/Preview Content\"";
+				DEVELOPMENT_TEAM = LY9S5TJ4Z6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DockableSample/Info.plist;
+				INFOPLIST_FILE = Boilerplate/Info.plist;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -309,15 +317,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = DockableSample/DockableSample.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Boilerplate/Sample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DockableSample/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_ASSET_PATHS = "\"Boilerplate/Preview Content\"";
+				DEVELOPMENT_TEAM = LY9S5TJ4Z6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DockableSample/Info.plist;
+				INFOPLIST_FILE = Boilerplate/Info.plist;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -338,7 +346,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		16782643286F37CD006AA4B6 /* Build configuration list for PBXProject "DockableSample" */ = {
+		16782643286F37CD006AA4B6 /* Build configuration list for PBXProject "Sample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16782655286F37CE006AA4B6 /* Debug */,
@@ -347,7 +355,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16782657286F37CE006AA4B6 /* Build configuration list for PBXNativeTarget "DockableSample" */ = {
+		16782657286F37CE006AA4B6 /* Build configuration list for PBXNativeTarget "Sample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16782658286F37CE006AA4B6 /* Debug */,
@@ -359,9 +367,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		16782660286F461F006AA4B6 /* Dockable */ = {
+		1678267F287351CE006AA4B6 /* Pipify */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Dockable;
+			productName = Pipify;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
