@@ -81,7 +81,6 @@ yourPipifyView
     .onPipRenderSizeChanged { size in
         // size has changed
     }
-}
 ```
 
 > A basic example project is included in the repository. Want to share your own example? Raise a pull request with your examples below. 
