@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		162BEA2C2873B99500345084 /* PipifyLoadingBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162BEA2B2873B99500345084 /* PipifyLoadingBarView.swift */; };
 		1678264C286F37CD006AA4B6 /* SampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678264B286F37CD006AA4B6 /* SampleApp.swift */; };
 		1678264E286F37CD006AA4B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678264D286F37CD006AA4B6 /* ContentView.swift */; };
 		16782650286F37CE006AA4B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1678264F286F37CE006AA4B6 /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		162BEA2B2873B99500345084 /* PipifyLoadingBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipifyLoadingBarView.swift; sourceTree = "<group>"; };
 		16782648286F37CD006AA4B6 /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1678264B286F37CD006AA4B6 /* SampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleApp.swift; sourceTree = "<group>"; };
 		1678264D286F37CD006AA4B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			children = (
 				1678264D286F37CD006AA4B6 /* ContentView.swift */,
 				1678267D287351A9006AA4B6 /* CustomPipifyView.swift */,
+				162BEA2B2873B99500345084 /* PipifyLoadingBarView.swift */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				162BEA2C2873B99500345084 /* PipifyLoadingBarView.swift in Sources */,
 				1678264E286F37CD006AA4B6 /* ContentView.swift in Sources */,
 				1678267E287351A9006AA4B6 /* CustomPipifyView.swift in Sources */,
 				1678264C286F37CD006AA4B6 /* SampleApp.swift in Sources */,

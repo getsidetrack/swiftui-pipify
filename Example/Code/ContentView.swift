@@ -9,6 +9,7 @@ struct ContentView: View {
     @State var isPresentedOne = false
     @State var isPresentedTwo = false
     @State var isPresentedThree = false
+    @State var isPresentedFour = false
     
     var body: some View {
         VStack {
@@ -39,8 +40,11 @@ struct ContentView: View {
                         .onPipSkip { _ in }
                         .onPipPlayPause { _ in }
                 }
+            
+            Button("Progress Bar") { isPresentedFour.toggle() }
+                .pipify(isPresented: $isPresentedFour) { PipifyLoadingBarView() }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        // .pipify(isPresented: $isPresentedTwo, content: BasicExample.init)
+        .pipify(isPresented: $isPresentedTwo, content: BasicExample.init)
     }
 }

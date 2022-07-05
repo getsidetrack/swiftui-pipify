@@ -51,6 +51,11 @@ public extension View {
     func pipShowOnBackground() -> some View {
         modifier(PipifyBackgroundModifier())
     }
+    
+    /// Provides a binding to a double whose value is used to update the progress bar in the picture-in-picture window.
+    func pipBindProgress(progress: Binding<Double>) -> some View {
+        modifier(PipifyProgressModifier(progress: progress))
+    }
 }
 
 internal struct PipifyPlayPauseModifier: ViewModifier {
@@ -131,5 +136,24 @@ internal struct PipifyForegroundModifier: ViewModifier {
                     controller.isPlaying = false
                 }
             }
+    }
+}
+
+internal struct PipifyProgressModifier: ViewModifier {
+    @EnvironmentObject var controller: PipifyController
+    @Binding var progress: Double
+    
+    func body(content: Content) -> some View {
+        content
+            .onChange(of: progress) { newProgress in
+                assert(newProgress >= 0 && newProgress <= 1, "progress value must be between 0 and 1")
+                controller.progress = newProgress.clamped(to: 0...1)
+            }
+    }
+}
+
+extension Comparable {
+    func clamped(to limits: ClosedRange<Self>) -> Self {
+        return min(max(self, limits.lowerBound), limits.upperBound)
     }
 }
