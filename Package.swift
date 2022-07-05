@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.6
 
 import PackageDescription
 
@@ -9,10 +9,13 @@ let package = Package(
         //      https://developer.apple.com/documentation/swiftui/imagerenderer
         // A GitHub issue is open to explore backporting to older versions:
         //      https://github.com/getsidetrack/swiftui-pipify/issues/4
-        .iOS(.v16),
-        .macOS(.v13),
-        .tvOS(.v16),
-        .macCatalyst(.v16),
+        
+        // We use string initialisers for versions in order to reduce the swift tools version required
+        // (5.6 instead of 5.7). This is for SwiftPackageIndex.
+        .iOS("16.0.0"),
+        .macOS("13.0.0"),
+        .tvOS("16.0.0"),
+        .macCatalyst("16.0.0"),
     ],
     products: [
         .library(name: "Pipify", targets: ["Pipify"]),

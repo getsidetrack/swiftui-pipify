@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		162BEA2C2873B99500345084 /* PipifyLoadingBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162BEA2B2873B99500345084 /* PipifyLoadingBarView.swift */; };
+		162BEA2F2874901D00345084 /* Pipify in Frameworks */ = {isa = PBXBuildFile; productRef = 162BEA2E2874901D00345084 /* Pipify */; };
 		1678264C286F37CD006AA4B6 /* SampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678264B286F37CD006AA4B6 /* SampleApp.swift */; };
 		1678264E286F37CD006AA4B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678264D286F37CD006AA4B6 /* ContentView.swift */; };
 		16782650286F37CE006AA4B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1678264F286F37CE006AA4B6 /* Assets.xcassets */; };
 		16782654286F37CE006AA4B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16782653286F37CE006AA4B6 /* Preview Assets.xcassets */; };
 		1678267E287351A9006AA4B6 /* CustomPipifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1678267D287351A9006AA4B6 /* CustomPipifyView.swift */; };
-		16782680287351CE006AA4B6 /* Pipify in Frameworks */ = {isa = PBXBuildFile; productRef = 1678267F287351CE006AA4B6 /* Pipify */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16782680287351CE006AA4B6 /* Pipify in Frameworks */,
+				162BEA2F2874901D00345084 /* Pipify in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +106,7 @@
 			);
 			name = Sample;
 			packageProductDependencies = (
-				1678267F287351CE006AA4B6 /* Pipify */,
+				162BEA2E2874901D00345084 /* Pipify */,
 			);
 			productName = DockableSample;
 			productReference = 16782648286F37CD006AA4B6 /* Sample.app */;
@@ -367,7 +367,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1678267F287351CE006AA4B6 /* Pipify */ = {
+		162BEA2E2874901D00345084 /* Pipify */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Pipify;
 		};
