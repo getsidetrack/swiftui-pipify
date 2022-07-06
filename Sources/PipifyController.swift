@@ -11,6 +11,10 @@ import os.log
 public final class PipifyController: NSObject, ObservableObject, AVPictureInPictureControllerDelegate,
                                        AVPictureInPictureSampleBufferPlaybackDelegate {
     
+    public static var isSupported: Bool {
+        AVPictureInPictureController.isPictureInPictureSupported()
+    }
+    
     @Published public var renderSize: CGSize = .zero
     @Published public var isPlaying: Bool = true
     

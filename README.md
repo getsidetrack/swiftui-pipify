@@ -45,27 +45,29 @@ Simply add the `pipify` modifier to your SwiftUI view. There are two key signatu
 your own custom pipify view (see above).
 
 ```swift
-yourView
-    .pipify(isPresented: $isPresented) // presents `yourView` in PIP
+@State var isPresented = false
 
-// or
+var body: some View {
+    yourView
+        .pipify(isPresented: $isPresented) // presents `yourView` in PIP
+        
+    // or
 
-yourView
-    .pipify(isPresented: $isPresented) {
-        SomeOtherView() // presents `SomeOtherView` in PIP
-    }
+    yourView
+        .pipify(isPresented: $isPresented) {
+            SomeOtherView() // presents `SomeOtherView` in PIP
+        }
+}
 ```
 
-The example above assumes that you have stored a SwiftUI state or binding to the parent view. This binding is what determines
-when to present the picture in picture window. This API is similar to Apple's own solutions for example with 
+In the example above, you can replace `yourView` with whatever you'd like to show. This is your existing code. The state 
+binding is what determines when to present the picture in picture window. This API is similar to Apple's own solutions for example with 
 [sheet](https://www.hackingwithswift.com/quick-start/swiftui/how-to-present-a-new-view-using-sheets).
 
-```
-@State var isPresented: Bool = false
-```
-
 If you provide a custom SwiftUI view as your pipify view, then you may choose to add our pipify controller as an environment
-object.
+object in that separate view ("SomeOtherView" in the example code above).
+
+Note that you cannot use the EnvironmentObject in the view which specifies the pipify modifier.
 
 ```swift
 @EnvironmentObject var controller: PipifyController
@@ -84,6 +86,15 @@ yourPipifyView
 ```
 
 > A basic example project is included in the repository. Want to share your own example? Raise a pull request with your examples below. 
+
+### Testing
+
+Pipify will not launch on unsupported devices and will return an error in the debug console stating that it could not launch.
+You can check whether a device is compatible by using `PipifyController.isSupported` which returns true or false. You may use
+this to show or hide the pip option in your application.
+
+**You must test this library on physical devices**. Due to issues in simulators outside of our control, you will see various
+inconsistencies, lack of support and other bugs when run on simulators.
 
 ## How does this work? 
 
