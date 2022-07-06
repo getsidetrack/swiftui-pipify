@@ -47,15 +47,21 @@ your own custom pipify view (see above).
 ```swift
 
 @StateObject var pipifyController = PipifyController()
-yourView
-    .pipify(isPresented: $isPresented) // presents `yourView` in PIP
 
+var body: some View {
+    yourView
+    .pipify(isPresented: $isPresented) // presents `yourView` in PIP
+}
 // or
 
-yourView
+@StateObject var pipifyController = PipifyController()
+
+var body: some View {
+    yourView
     .pipify(isPresented: $isPresented) {
         SomeOtherView() // presents `SomeOtherView` in PIP
     }
+}
 ```
 
 The example above assumes that you have stored a SwiftUI state or binding to the parent view. This binding is what determines
