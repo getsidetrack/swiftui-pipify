@@ -45,6 +45,8 @@ Simply add the `pipify` modifier to your SwiftUI view. There are two key signatu
 your own custom pipify view (see above).
 
 ```swift
+
+@StateObject var pipifyController = PipifyController()
 yourView
     .pipify(isPresented: $isPresented) // presents `yourView` in PIP
 
