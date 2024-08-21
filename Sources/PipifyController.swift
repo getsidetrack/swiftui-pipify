@@ -18,7 +18,7 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     @Published public var renderSize: CGSize = .zero
     @Published public var isPlaying: Bool = true
     
-    public var enabled: Bool = false
+    @Published public var enabled: Bool = false
     internal var isPlayPauseEnabled = false
     
     internal var onSkip: ((Double) -> Void)? = nil {
