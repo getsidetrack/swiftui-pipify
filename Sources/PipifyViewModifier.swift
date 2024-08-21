@@ -6,7 +6,8 @@ import SwiftUI
 
 internal struct PipifyModifier<PipView: View>: ViewModifier {
     @Binding var isPresented: Bool
-    @ObservedObject var controller: PipifyController
+    @StateObject var controller: PipifyController = PipifyController()
+    
     let pipContent: () -> PipView
     let offscreenRendering: Bool
     
@@ -16,7 +17,6 @@ internal struct PipifyModifier<PipView: View>: ViewModifier {
         offscreenRendering: Bool
     ) {
         self._isPresented = isPresented
-        self.controller = PipifyController(isPresented: isPresented)
         self.pipContent = pipContent
         self.offscreenRendering = offscreenRendering
     }
@@ -39,6 +39,9 @@ internal struct PipifyModifier<PipView: View>: ViewModifier {
                 } else {
                     controller.stop()
                 }
+            }
+            .onChange(of: controller.enabled) { newValue in
+                isPresented = newValue
             }
             .task {
                 logger.trace("setting view content")
