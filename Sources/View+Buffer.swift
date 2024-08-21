@@ -11,11 +11,14 @@ extension View {
     func makeBuffer(renderer: ImageRenderer<some View>) async throws -> CMSampleBuffer {
         // Pixel Buffer
         var buffer: CVPixelBuffer?
+        let scale = await UIScreen.main.scale * 2
         await renderer.render { size, callback in
+            let scaledSize = CGSize(width: size.width * scale, height: size.height * scale)
+            
             let status = CVPixelBufferCreate(
                 kCFAllocatorDefault,
-                Int(size.width),
-                Int(size.height),
+                Int(scaledSize.width),
+                Int(scaledSize.height),
                 kCVPixelFormatType_32ARGB,
                 [
                     kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue!,
@@ -35,8 +38,8 @@ extension View {
 
             let context = CGContext(
                 data: CVPixelBufferGetBaseAddress(unwrappedBuffer),
-                width: Int(size.width),
-                height: Int(size.height),
+                width: Int(scaledSize.width),
+                height: Int(scaledSize.height),
                 bitsPerComponent: 8,
                 bytesPerRow: CVPixelBufferGetBytesPerRow(unwrappedBuffer),
                 space: CGColorSpaceCreateDeviceRGB(),
@@ -47,6 +50,9 @@ extension View {
                 logger.error("context not created")
                 return
             }
+            
+            // Apply the scale to the context
+            unwrappedContext.scaleBy(x: scale, y: scale)
             
             callback(unwrappedContext)
         }

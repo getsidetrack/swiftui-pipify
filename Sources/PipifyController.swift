@@ -18,7 +18,7 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
     @Published public var renderSize: CGSize = .zero
     @Published public var isPlaying: Bool = true
     
-    @Binding internal var enabled: Bool
+    @Published public var enabled: Bool = false
     internal var isPlayPauseEnabled = false
     
     internal var onSkip: ((Double) -> Void)? = nil {
@@ -58,14 +58,12 @@ public final class PipifyController: NSObject, ObservableObject, AVPictureInPict
         #endif
     }
     
-    init(isPresented: Binding<Bool>) {
-        _enabled = isPresented
+    public override init() {
         super.init()
-        // the audio session must be setup before the pip controller is created
         Self.setupAudioSession()
         setupController()
     }
-    
+
     private func setupController() {
         logger.info("creating pip controller")
         
