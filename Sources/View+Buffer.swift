@@ -11,7 +11,13 @@ extension View {
     func makeBuffer(renderer: ImageRenderer<some View>) async throws -> CMSampleBuffer {
         // Pixel Buffer
         var buffer: CVPixelBuffer?
+        
+        #if canImport(UIKit)
         let scale = await UIScreen.main.scale * 2
+        #else
+        let scale: CGFloat = 1
+        #endif
+        
         await renderer.render { size, callback in
             let scaledSize = CGSize(width: size.width * scale, height: size.height * scale)
             
